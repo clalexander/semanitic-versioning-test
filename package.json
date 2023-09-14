@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "clean && tsc"
+    "build": "npm run clean && tsc"
   },
   "repository": {
     "type": "git",
