@@ -37,10 +37,9 @@ jobs:
       - name: Build
         run: npm run build
       - name: Release
-        uses: cycjimmy/semantic-release-action@v3
+        uses: cycjimmy/semantic-release-action@v4
         id: semantic
         with:
-          semantic_version: 18.0.0
           extra_plugins: |
             @semantic-release/changelog@6.0.0
             @semantic-release/git@10.0.0
@@ -48,32 +47,32 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  rebase:
-    name: Rebase
-    if: ${{ github.ref == 'refs/heads/main' && needs.release.outputs.new_release_published == 'true' }}
-    needs: release
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  # rebase:
+  #   name: Rebase
+  #   if: ${{ github.ref == 'refs/heads/main' && needs.release.outputs.new_release_published == 'true' }}
+  #   needs: release
+  #   runs-on: ubuntu-latest
+  #   continue-on-error: true
+  #   permissions:
+  #     contents: write # to be able to publish a GitHub release
+  #     issues: write # to be able to comment on released issues
+  #     pull-requests: write # to be able to comment on released pull requests
+  #     id-token: write # to enable use of OIDC for npm provenance
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Rebase
-        run: |
-          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git config --global user.name "@$GITHUB_ACTOR"
-          git status
-          set -o xtrace
-          git fetch origin main
-          git pull
-          git fetch origin $DEVELOPMENT_BRANCH
-          git checkout -b origin/$DEVELOPMENT_BRANCH
-          git rebase origin/main
-          git push origin origin/$DEVELOPMENT_BRANCH:$DEVELOPMENT_BRANCH
+  #     - name: Rebase
+  #       run: |
+  #         git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+  #         git config --global user.name "@$GITHUB_ACTOR"
+  #         git status
+  #         set -o xtrace
+  #         git fetch origin main
+  #         git pull
+  #         git fetch origin $DEVELOPMENT_BRANCH
+  #         git checkout -b origin/$DEVELOPMENT_BRANCH
+  #         git rebase origin/main
+  #         git push origin origin/$DEVELOPMENT_BRANCH:$DEVELOPMENT_BRANCH
