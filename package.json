@@ -1,0 +1,15 @@
+{
+  "name": "semantic-versioning-test",
+  "version": "0.0.1",
+  "description": "Repo to test semantic versioning and prereleases",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Christopher Alexander",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.6.0",
+    "typescript": "^5.2.2"
+  }
+}
